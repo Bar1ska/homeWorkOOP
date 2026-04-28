@@ -3,230 +3,174 @@
 #include <Windows.h>
 #include <vector>
 #include <conio.h>
+#include <fstream>
 using namespace std;
 
-
-class AutoServise 
+class Directory
 {
+private:
+
+    std::vector<string> companyName;
+    std::vector<string> companyOwner;
+    std::vector<int> companyNumber;
+    std::vector<string> companyAdress;
+    std::vector<string> companyOccupation;
+    int number, choice, amount;
+    string name, owner, adress, occupation;
+    
+    void writingFiles(int ind)
+    {
+        ofstream outFile;
+        outFile.open("file.txt", std::ios::app);
+        outFile << companyName[ind] << " | " << companyOwner[ind] << " | " << companyNumber[ind] << " | " << companyAdress[ind] << " | " << companyOccupation[ind] << endl;
+        outFile.close();
+    }
+
 public:
+    
     void adding()
     {
         system("CLS");
-        cout << "Введите название автомобиля -> ";
+        cout << "Введите название компании: ";
         cin >> name;
-        nameAuto.push_back(name);
-        cout << "Введите год релиза автомобиля -> ";
-        cin >> year;
-        yearOfRealise.push_back(year);
-        cout << "Введите объем мотора автомобиля -> ";
-        cin >> volume;
-        volumeEngine.push_back(volume);
-        cout << "Введите цену автомобиля -> ";
-        cin >> price;
-        priceAuto.push_back(price);
-    }
-    void print(int i = 0)
-    {
-        if (i == 0)
-        {
-            cout << "name auto | year of realise | volume engine | price auto" << endl;
-            for (int i = 0; i < nameAuto.size(); ++i)
-            {
-                cout << nameAuto[i] << " | ";
-                cout << yearOfRealise[i] << " | ";
-                cout << volumeEngine[i] << " | ";
-                cout << priceAuto[i] << endl;
-            }
-        }
-        else 
-        {
-            cout << "name auto | year of realise | volume engine | price auto" << endl;
-            --i;
-            cout << nameAuto[i] << " | ";
-            cout << yearOfRealise[i] << " | ";
-            cout << volumeEngine[i] << " | ";
-            cout << priceAuto[i] << endl;
-        }
+        companyName.push_back(name);
+        cout << "Введите владельца компании: ";
+        cin >> owner;
+        companyOwner.push_back(owner);
+        cout << "Введите телефонный номер компании: ";
+        cin >> number;
+        companyNumber.push_back(number);
+        cout << "Введите адресс компани: ";
+        cin >> adress;
+        companyAdress.push_back(adress);
+        cout << "Введите род деятельности компании: ";
+        cin >> occupation;
+        companyOccupation.push_back(occupation);
+        writingFiles(companyName.size() - 1);
         system("pause");
-    }
-    void remove(int ind) 
-    {
-        system("CLS");
-        nameAuto.erase(nameAuto.begin() + ind);
-        yearOfRealise.erase(yearOfRealise.begin() + ind);
-        volumeEngine.erase(volumeEngine.begin() + ind);
-        priceAuto.erase(priceAuto.begin() + ind);
-        cout << "Измененный контейнер: " << endl;
-        print();
     }
     void search() 
     {
         system("CLS");
-        cout << "Выберите по какой категории проводить поиск:" << endl;
-        cout << "1. название машины" << endl;
-        cout << "2. гор релиза" << endl;
-        cout << "3. объем двигателя" << endl;
-        cout << "4. цена" << endl;
-        cin >> choise;
+        cout << "Проведите поиск в :" << endl;
+        cout << "1. имени" << endl;
+        cout << "2. владельце" << endl;
+        cout << "3. номере телефоне" << endl;
+        cout << "4. адрессе" << endl;
+        cout << "5. роду деятельности" << endl;
+        cout << endl << "ваш выбор: ";
+        cin >> choice;
         amount = 0;
-        switch (choise)
+        switch (choice) 
         {
         case 1:
-            cout << "Введите имя автомобиля: ";
+            cout << endl << "Введите поисковое имя копании: ";
             cin >> name;
-            for (int i = 0; i < nameAuto.size(); ++i)
+            for (int i = 0; i < companyName.size(); ++i) 
             {
-                if (name == nameAuto[i])
+                if (companyName[i] == name) 
                 {
-                    cout << "Что сделать с найденным элементом?" << endl;
-                    cout << "Удалить -> d" << endl;
-                    cout << "Вывести -> p" << endl;
-                    cin >> strChoise;
-                    amount += 1;
-                    switch (strChoise)
-                    {
-                    case 'p':
-                        print(++i);
-                        break;
-                    case 'd':
-                        remove(i);
-                        break;
-                    }
-                    
+                    ++amount;
+                    cout << companyName[i] << " | " << companyOwner[i] << " | " << companyNumber[i] << " | " << companyAdress[i] << " | " << companyOccupation[i] << endl;
                 }
             }
             if (amount == 0)
             {
-                cout << "Ничего не было найдено!" << endl;
+                cout << "Ничего не было найдено" << endl;
             }
             break;
-
         case 2:
-            cout << "Введите год релиза: ";
-            cin >> year;
-            for (int i = 0; i < yearOfRealise.size(); ++i)
+            cout << endl << "Введите поискового владельца: ";
+            cin >> owner;
+            for (int i = 0; i < companyOwner.size(); ++i)
             {
-                if (year == yearOfRealise[i])
+                if (companyOwner[i] == owner)
                 {
-                    cout << "Что сделать с найденным элементом?" << endl;
-                    cout << "Удалить -> d" << endl;
-                    cout << "Вывести -> p" << endl;
-                    cin >> strChoise;
-                    amount += 1;
-                    switch (strChoise)
-                    {
-                    case 'p':
-                        print(++i);
-                        break;
-                    case 'd':
-                        remove(i);
-                        break;
-                    }
+                    ++amount;
+                    cout << companyName[i] << " | " << companyOwner[i] << " | " << companyNumber[i] << " | " << companyAdress[i] << " | " << companyOccupation[i] << endl;
                 }
             }
             if (amount == 0)
             {
-                cout << "Ничего не было найдено!" << endl;
+                cout << "Ничего не было найдено" << endl;
             }
             break;
-        
         case 3:
-            cout << "Введите объем двигателя: ";
-            cin >> year;
-            for (int i = 0; i < volumeEngine.size(); ++i)
+            cout << endl << "Введите поисковый номер телефона: ";
+            cin >> number;
+            for (int i = 0; i < companyNumber.size(); ++i)
             {
-                if (year == volumeEngine[i])
+                if (companyNumber[i] == number)
                 {
-                    cout << "Что сделать с найденным элементом?" << endl;
-                    cout << "Удалить -> d" << endl;
-                    cout << "Вывести -> p" << endl;
-                    cin >> strChoise;
-                    amount += 1;
-                    switch (strChoise)
-                    {
-                    case 'p':
-                        print(++i);
-                        break;
-                    case 'd':
-                        remove(i);
-                        break;
-                    }
+                    ++amount;
+                    cout << companyName[i] << " | " << companyOwner[i] << " | " << companyNumber[i] << " | " << companyAdress[i] << " | " << companyOccupation[i] << endl;
                 }
             }
             if (amount == 0)
             {
-                cout << "Ничего не было найдено!" << endl;
+                cout << "Ничего не было найдено" << endl;
             }
             break;
-
         case 4:
-            cout << "Введите цену: ";
-            cin >> year;
-            for (int i = 0; i < priceAuto.size(); ++i)
+            cout << endl << "Введите поисковый адресс: ";
+            cin >> adress;
+            for (int i = 0; i < companyAdress.size(); ++i)
             {
-                if (year == priceAuto[i])
+                if (companyAdress[i] == adress)
                 {
-                    cout << "Что сделать с найденным элементом?" << endl;
-                    cout << "Удалить -> d" << endl;
-                    cout << "Вывести -> p" << endl;
-                    cin >> strChoise;
-                    amount += 1;
-                    switch (strChoise)
-                    {
-                    case 'p':
-                        print(++i);
-                        break;
-                    case 'd':
-                        remove(i);
-                        break;
-                    }
+                    ++amount;
+                    cout << companyName[i] << " | " << companyOwner[i] << " | " << companyNumber[i] << " | " << companyAdress[i] << " | " << companyOccupation[i] << endl;
                 }
             }
             if (amount == 0)
             {
-                cout << "Ничего не было найдено!" << endl;
+                cout << "Ничего не было найдено" << endl;
             }
             break;
-        }
+        case 5:
+            cout << endl << "Введите поисковое имя копании: ";
+            cin >> occupation;
+            for (int i = 0; i < companyOccupation.size(); ++i)
+            {
+                if (companyOccupation[i] == occupation)
+                {
+                    ++amount;
+                    cout << companyName[i] << " | " << companyOwner[i] << " | " << companyNumber[i] << " | " << companyAdress[i] << " | " << companyOccupation[i] << endl;
+                }
+            }
+            if (amount == 0)
+            {
+                cout << "Ничего не было найдено" << endl;
+            }
+            break;
 
+        }
+        system("pause");
     }
-private:
-    char strChoise;
-    string name;
-    int year, volume, price, choise, amount;
-    std::vector<string> nameAuto;
-    std::vector<int> yearOfRealise;
-    std::vector<int> volumeEngine;
-    std::vector<int> priceAuto;
 };
 
 int main()
 {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
-    AutoServise servise;
-    int choise = 0;
-    while (choise != 4)
+    Directory directory;
+    int choice = 0;
+    while (choice != 3) 
     {
         system("CLS");
-        cout << "Выберите вариант:" << endl;
+        cout << "Выберите команду :" << endl;
         cout << "1. добавление" << endl;
-        cout << "2. вывод" << endl;
-        cout << "3. поиск" << endl;
-        cout << "4. выход из программы" << endl;
-        cin >> choise;
-        switch (choise)
+        cout << "2. поиск" << endl;
+        cout << "3. выход из программы" << endl;
+        cout << endl << "Ваш выбор: ";
+        cin >> choice;
+        switch(choice) 
         {
         case 1:
-            servise.adding();
+            directory.adding();
             break;
-
         case 2:
-            servise.print();
-            break;
-
-        case 3:
-            servise.search();
+            directory.search();
             break;
         }
     }
