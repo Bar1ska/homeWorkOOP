@@ -7,62 +7,36 @@
 #include <stdio.h>
 using namespace std;
 
-class Line
+class Decimal 
 {
 public:
-    std::vector <char> str;
-    void getStr()
+    int numerator, denominator;
+    void input() 
     {
-        while ((symbol = getchar()) != '\n')
-        {
-            str.push_back(symbol);
-        }
+        cin >> numerator;
+        cout << "——" << endl;
+        cin >> denominator;
     }
-    int giveSize()
+    void addition(int& numerator1, int& denominator1) 
     {
-        return str.size();
+        denominator *= denominator1;
+        numerator = numerator * denominator1 + numerator1 * denominator;
     }
-    void deleteLine()
+    void subtraction(int& numerator1, int& denominator1)
     {
-        str.clear();
+        denominator *= denominator1;
+        numerator = numerator * denominator1 - numerator1 * denominator;
     }
-    void adding(std::vector <char> str2)
+    void multiplication(int& numerator1, int& denominator1)
     {
-        for (int i = 0; i < str2.size(); ++i)
-        {
-            str.push_back(str2[i]);
-        }
+        denominator *= denominator1;
+        numerator *= numerator1;
     }
-    bool checkEquality(std::vector<char> str2) 
+    void division(int& numerator1, int& denominator1)
     {
-        if (giveSize() != str2.size()) 
-        {
-            return false;
-        }
-        for (int i = 0; i < giveSize(); ++i) 
-        {
-            if (str[i] != str2[i]) 
-            {
-                return false;
-            }
-        }
-        return true;
+        denominator *= numerator1;
+        numerator *= denominator1;
     }
-    Line() = default;
-    Line(const std::vector <char> str2) 
-    {
-        str = str2;
-    }
-    Line(const Line& obj)
-    {
-        str = obj.str;
-    }
-    ~Line() 
-    {
-        deleteLine();
-    }
-private:
-    char symbol;
 };
 
 int main()
