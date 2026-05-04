@@ -5,60 +5,51 @@
 #include <conio.h>
 #include <fstream>
 #include <stdio.h>
+#include <cmath>
 using namespace std;
 
-class Decimal 
+class Complex 
 {
 public:
-    Decimal() = default;
-    Decimal(const int& numeratorObj, const int& denominatorObj) 
+    Complex() = default;
+    Complex(int x, int y)
     {
-        numerator = numeratorObj;
-        denominator = denominatorObj;
-    };
-    Decimal(const Decimal& obj) 
+        xNum = x;
+        yNum = y;
+    }
+    Complex(const Complex& obj) 
     {
-        numerator = obj.numerator;
-        denominator = obj.denominator;
-    };
-    ~Decimal() {};
-
+        zNum = obj.zNum;
+        xNum = obj.xNum;
+        yNum = obj.yNum;
+    }
+    ~Complex() {}
     void input() 
     {
-        cin >> numerator;
-        cout << "——" << endl;
-        cin >> denominator;
+        cout << "Введите обычное число : ";
+        cin >> xNum;
+        cout << "Введите обычное число : ";
+        cin >> yNum;
     }
-    
-    Decimal operator+(const Decimal& point) const 
+    Complex operator+(const Complex& obj) 
     {
-        int newNumerator = numerator * point.denominator + point.numerator * denominator;
-        int newDenominator = denominator * point.denominator;
-        return Decimal(newNumerator, newDenominator);
+        return Complex(xNum+obj.xNum, yNum + obj.yNum);
     }
-
-    Decimal operator-(const Decimal& point) const
+    Complex operator-(const Complex& obj)
     {
-        int newNumerator = numerator * point.denominator - point.numerator * denominator;
-        int newDenominator = denominator * point.denominator;
-        return Decimal(newNumerator, newDenominator);
+        return Complex(xNum - obj.xNum, yNum - obj.yNum);
     }
-
-    Decimal operator*(const Decimal& point) const
+    Complex operator*(const Complex& obj)
     {
-        int newNumerator = numerator * point.numerator;
-        int newDenominator = denominator * point.denominator;
-        return Decimal(newNumerator, newDenominator);
-    }
-
-    Decimal operator/(const Decimal& point) const
-    {
-        int newNumerator = numerator * point.denominator;
-        int newDenominator = denominator * point.numerator;
-        return Decimal(newNumerator, newDenominator);
+        return Complex(xNum * obj.xNum - yNum * obj.yNum, xNum * obj.yNum - yNum * obj.xNum);
     }
 private:
-    int numerator, denominator;
+    int xNum, yNum;
+    float zNum;
+    void calculationZ() 
+    {
+        zNum = sqrt(xNum * xNum + yNum * yNum);
+    }
 };
 
 int main()
