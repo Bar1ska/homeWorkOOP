@@ -10,33 +10,55 @@ using namespace std;
 class Decimal 
 {
 public:
-    int numerator, denominator;
+    Decimal() = default;
+    Decimal(const int& numeratorObj, const int& denominatorObj) 
+    {
+        numerator = numeratorObj;
+        denominator = denominatorObj;
+    };
+    Decimal(const Decimal& obj) 
+    {
+        numerator = obj.numerator;
+        denominator = obj.denominator;
+    };
+    ~Decimal() {};
+
     void input() 
     {
         cin >> numerator;
         cout << "——" << endl;
         cin >> denominator;
     }
-    void addition(int& numerator1, int& denominator1) 
+    
+    Decimal operator+(const Decimal& point) const 
     {
-        denominator *= denominator1;
-        numerator = numerator * denominator1 + numerator1 * denominator;
+        int newNumerator = numerator * point.denominator + point.numerator * denominator;
+        int newDenominator = denominator * point.denominator;
+        return Decimal(newNumerator, newDenominator);
     }
-    void subtraction(int& numerator1, int& denominator1)
+
+    Decimal operator-(const Decimal& point) const
     {
-        denominator *= denominator1;
-        numerator = numerator * denominator1 - numerator1 * denominator;
+        int newNumerator = numerator * point.denominator - point.numerator * denominator;
+        int newDenominator = denominator * point.denominator;
+        return Decimal(newNumerator, newDenominator);
     }
-    void multiplication(int& numerator1, int& denominator1)
+
+    Decimal operator*(const Decimal& point) const
     {
-        denominator *= denominator1;
-        numerator *= numerator1;
+        int newNumerator = numerator * point.numerator;
+        int newDenominator = denominator * point.denominator;
+        return Decimal(newNumerator, newDenominator);
     }
-    void division(int& numerator1, int& denominator1)
+
+    Decimal operator/(const Decimal& point) const
     {
-        denominator *= numerator1;
-        numerator *= denominator1;
+        int newNumerator = numerator * point.denominator;
+        int newDenominator = denominator * point.numerator;
+        return Decimal(newNumerator, newDenominator);
     }
+private:
+    int numerator, denominator;
 };
 
 int main()
