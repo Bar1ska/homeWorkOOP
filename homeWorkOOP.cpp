@@ -6,49 +6,82 @@
 #include <fstream>
 #include <stdio.h>
 #include <cmath>
+#include <algorithm>
 using namespace std;
 
-class Complex 
+class AutoMassive 
 {
 public:
-    Complex() = default;
-    Complex(int x, int y)
+    template <typename A> A peak(std::vector<A> mass)
     {
-        xNum = x;
-        yNum = y;
+        A num = 0;
+        for (int i = 0; i < mass.size(); ++i)
+        {
+            if (num < mass[i])
+            {
+                num = mass[i];
+            }
+        }
+        return num;
     }
-    Complex(const Complex& obj) 
+    template <typename A> A least(std::vector<A> mass) 
     {
-        zNum = obj.zNum;
-        xNum = obj.xNum;
-        yNum = obj.yNum;
+        A num = peak(mass);
+        for (int i = 0; i < mass.size(); ++i)
+        {
+            if (num > mass[i]) 
+            {
+                num = mass[i];
+            }
+        }
+        return num;
     }
-    ~Complex() {}
-    void input() 
+    template <typename A> std::vector<A> bublePop(std::vector<A> mass) 
     {
-        cout << "Введите обычное число : ";
-        cin >> xNum;
-        cout << "Введите обычное число : ";
-        cin >> yNum;
+        A num;
+        int amount = 1;
+        while (amount != 0) 
+        {
+            amount = 0;
+            for (int i = 0; i < mass.size(); ++i) 
+            {
+                if (i - 1 > mass.size() - 1) 
+                {
+                    if (mass[i] > mass[i + 1]) 
+                    {
+                        num = mass[i];
+                        mass[i] = mass[i + 1];
+                        mass[i + 1] = num;
+                        ++amount;
+                    }
+                }
+                else 
+                {
+                    if (mass[i] < mass[i - 1])
+                    {
+                        num = mass[i];
+                        mass[i] = mass[i - 1];
+                        mass[i - 1] = num;
+                        ++amount;
+                    }
+                }
+            }
+        }
+        return mass;
     }
-    Complex operator+(const Complex& obj) 
+    template <typename A> bool search(A target, std::vector <A> mass) 
     {
-        return Complex(xNum+obj.xNum, yNum + obj.yNum);
+        mass = bublePop(mass);
+        return binary_search(mass.begin(), mass.end(), target);
     }
-    Complex operator-(const Complex& obj)
+    template <typename A> std::vector <A> swap(A targetNum, A newNum, std::vector <A> mass) 
     {
-        return Complex(xNum - obj.xNum, yNum - obj.yNum);
-    }
-    Complex operator*(const Complex& obj)
-    {
-        return Complex(xNum * obj.xNum - yNum * obj.yNum, xNum * obj.yNum - yNum * obj.xNum);
-    }
-private:
-    int xNum, yNum;
-    float zNum;
-    void calculationZ() 
-    {
-        zNum = sqrt(xNum * xNum + yNum * yNum);
+        if (search(targetNum, mass)) 
+        {
+            int ind = find(mass.begin(), mass.end(), targetNum);
+            mass[ind] = newNum;
+        }
+        return mass;
     }
 };
 
@@ -56,5 +89,11 @@ int main()
 {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
+    AutoMassive m;
+    std::vector <int> massive = m.bublePop(std::vector <int> {2,1,4});
+    for (int i = 0; i < massive.size(); ++i) 
+    {
+        cout << massive[i] << endl;
+    }
 }
 
